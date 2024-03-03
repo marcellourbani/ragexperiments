@@ -10,6 +10,7 @@ RUN apt-get update && \
     chsh -s /usr/bin/fish jovyan && \
     chsh -s /usr/bin/fish root && \
     apt-get clean
+RUN curl -fsSL https://ollama.com/install.sh | sh
 USER jovyan
 RUN pip install ipywidgets sentence_transformers torch
 VOLUME [ "/workspaces/ragtest" ]
