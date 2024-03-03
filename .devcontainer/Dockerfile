@@ -10,7 +10,7 @@ RUN apt-get update && \
     chsh -s /usr/bin/fish jovyan && \
     chsh -s /usr/bin/fish root && \
     apt-get clean
-RUN curl -fsSL https://ollama.com/install.sh | sh
+RUN echo "jovyan ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/added-by-start-script
 USER jovyan
 RUN pip install ipywidgets sentence_transformers torch
 VOLUME [ "/workspaces/ragtest" ]
