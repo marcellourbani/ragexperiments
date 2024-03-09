@@ -1,3 +1,10 @@
 {
-    "python.analysis.typeCheckingMode": "off"
+    "python.defaultInterpreterPath": "/opt/conda/bin/python",
+    "python.languageServer": "Pylance",
+    "ipynb.pasteImagesAsAttachments.enabled": true,
+    "jupyter.debugJustMyCode": true,
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.inlayHints.callArgumentNames": "partial",
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.typeCheckingMode": "basic"
 }

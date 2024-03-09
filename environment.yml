@@ -1,0 +1,16 @@
+name: base
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - mamba
+  - jupyter_core
+  - jupyterlab
+  - notebook
+  - jupyterhub
+  - nbclassic
+  - ca-certificates
+  - certifi
+  - openssl
+  - faiss-gpu
+prefix: /opt/conda
