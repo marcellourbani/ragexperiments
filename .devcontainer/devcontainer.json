@@ -4,9 +4,12 @@
 	"name": "Alpine",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	// "image": "mcr.microsoft.com/devcontainers/base:alpine-3.18",
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+	// "build": {
+	// 	"dockerfile": "Dockerfile"
+	// },
+	"dockerComposeFile": "./docker-compose.yml",
+	"service": "ragtestdev",
+	"workspaceFolder": "/workspaces/ragtest",
 	"customizations": {
 		"vscode": {
 			"extensions": [

@@ -1,6 +1,4 @@
 {
-    "python.defaultInterpreterPath": "/opt/conda/bin/python",
-    "python.languageServer": "Pylance",
     "ipynb.pasteImagesAsAttachments.enabled": true,
     "jupyter.debugJustMyCode": true,
     "python.analysis.completeFunctionParens": true,

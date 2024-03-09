@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  ragtestdev:
+    build: .
+    volumes:
+      - ../:/workspaces/ragtest
+      - jovyanhome:/home/jovyan
+      # - condaenvs:/opt/conda/envs
+    networks:
+      - ragtest
+  ollama:
+    image: ollama/ollama
+    # ports:
+    #   - 11434:11434
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - ragtest
+
+volumes:
+  ollama:
+  jovyanhome:
+    # condaenvs:
+
+
+networks:
+  ragtest:

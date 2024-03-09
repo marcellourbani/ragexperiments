@@ -1,4 +1,4 @@
-name: base
+name: ragtest
 channels:
   - conda-forge
 dependencies:
@@ -12,5 +12,6 @@ dependencies:
   - ca-certificates
   - certifi
   - openssl
-  - faiss-gpu
+  # - faiss-gpu
+  - faiss-cpu
 prefix: /opt/conda
