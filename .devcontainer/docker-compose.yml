@@ -1,7 +1,20 @@
 version: '3.8'
+
+x-dummy: &nvidia
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [ gpu ]
+
 services:
   ragtestdev:
     build: .
+    <<: *nvidia
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
     volumes:
       - ../:/workspaces/ragtest
       - jovyanhome:/home/jovyan
@@ -9,13 +22,14 @@ services:
     networks:
       - ragtest
   ollama:
-    image: ollama/ollama
+    build: ollama
     # ports:
     #   - 11434:11434
     volumes:
-      - ollama:/root/.ollama
+      - ollama:/home/ollama/.ollama
     networks:
       - ragtest
+    <<: *nvidia
 
 volumes:
   ollama:

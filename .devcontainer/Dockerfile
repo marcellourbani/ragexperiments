@@ -4,8 +4,10 @@ RUN apt-get update && \
     apt-get -y install fish fd-find ripgrep git curl inetutils-ping neovim && \
     chsh -s /usr/bin/fish jovyan && \
     chsh -s /usr/bin/fish root && \
-    apt-get clean
-RUN echo "jovyan ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/added-by-start-script
+    apt-get clean && \
+    curl -L https://ollama.com/download/ollama-linux-amd64 -o /usr/bin/ollama && \
+    chmod +x /usr/bin/ollama
+RUN    echo "jovyan ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/added-by-start-script
 USER jovyan
 # will use anaconda, install in local environment
 # RUN pip install ipywidgets sentence_transformers torch
