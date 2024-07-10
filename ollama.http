@@ -3,7 +3,7 @@ POST http://ollama:11434/api/generate
 Content-Type: application/json
 
 {
-    "model": "llama2", 
+    "model": "llama3", 
     "prompt": "\"\"\"\nYou are a bot that makes recommendations for activities. You answer in very short sentences and do not include extra information.\nThis is the recommended activity: Go for a hike and admire the natural scenery.\nThe user input is: I don't like to hike\nCompile a recommendation to the user based on the recommended activity and the user input.\n\"\"\""
 }
 
@@ -12,7 +12,7 @@ POST http://ollama:11434/api/embeddings
 Content-Type: application/json
 
 { 
-    "model": "llama2",
+    "model": "llama3",
     "prompt": "Hello, world!"
 }
 

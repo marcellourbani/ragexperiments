@@ -4,7 +4,7 @@ Compose file assumes nvidia gpu and [nvidia container toolkit](https://docs.nvid
 
 ## Ollama
 Ollama is run in a container, accessible cia CLI or at http://ollama:11434
-notebooks might assume llama2 or other models was installed
+notebooks might assume llama3 or other models was installed
 
 ## Manage anaconda environment
 An anaconda environment is included in the current folder, excluded from GIT
