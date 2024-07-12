@@ -7,7 +7,34 @@ Content-Type: application/json
     "prompt": "\"\"\"\nYou are a bot that makes recommendations for activities. You answer in very short sentences and do not include extra information.\nThis is the recommended activity: Go for a hike and admire the natural scenery.\nThe user input is: I don't like to hike\nCompile a recommendation to the user based on the recommended activity and the user input.\n\"\"\""
 }
 
-### generate embeddings
+### ollama embedding long
+POST http://ollama:11434/api/embeddings
+Content-Type: application/json
+
+{
+    "model": "llama3", 
+    "prompt": "\"\"\"\nYou are a bot that makes recommendations for activities. You answer in very short sentences and do not include extra information.\nThis is the recommended activity: Go for a hike and admire the natural scenery.\nThe user input is: I don't like to hike\nCompile a recommendation to the user based on the recommended activity and the user input.\n\"\"\""
+}
+
+### mxbai-embed-large embedding
+POST http://ollama:11434/api/embeddings
+Content-Type: application/json
+
+{
+    "model": "mxbai-embed-large", 
+    "prompt": "You are a bot that makes recommendations for activities. You answer in very short sentences and do not include extra information.\nThis is the recommended activity: Go for a hike and admire the natural scenery.\nThe user input is: I don't like to hike\nCompile a recommendation to the user based on the recommended activity and the user input"
+}
+
+### mxbai-embed-large embedding short
+POST http://ollama:11434/api/embeddings
+Content-Type: application/json
+
+{
+    "model": "mxbai-embed-large", 
+    "prompt": "Hello, world!"
+}
+
+### ollama embeddings short
 POST http://ollama:11434/api/embeddings
 Content-Type: application/json
 
