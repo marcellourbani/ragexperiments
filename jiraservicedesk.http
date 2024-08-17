@@ -1,0 +1,30 @@
+###
+# @name spaces
+GET {{$dotenv BASEURL}}/wiki/api/v2/spaces
+Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
+Accept: application/json
+###
+# @name singlespace
+GET {{$dotenv BASEURL}}/wiki/api/v2/spaces/{{$dotenv ROOTSPACEID}}
+Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
+Accept: application/json
+###
+# @name singlespace_pages
+# add ?body-format=atlas_doc_format to get the body, hard to parse
+GET {{$dotenv BASEURL}}/wiki/api/v2/spaces/{{$dotenv ROOTSPACEID}}/pages
+Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
+Accept: application/json
+###
+# @name thirdpage_html
+GET {{$dotenv BASEURL}}/wiki{{singlespace_pages.response.body.results[2]._links.webui}}
+Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
+###
+# @name thirdpage
+GET {{$dotenv BASEURL}}/wiki/api/v2/pages/{{singlespace_pages.response.body.results[2].id}}
+Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
+Accept: application/json
+###
+# @name thirdpage_children
+GET {{$dotenv BASEURL}}/wiki/api/v2/pages/{{singlespace_pages.response.body.results[2].id}}/children
+Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
+Accept: application/json
