@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 x-dummy: &nvidia
   deploy:
@@ -7,7 +7,7 @@ x-dummy: &nvidia
         devices:
           - driver: nvidia
             count: 1
-            capabilities: [ gpu ]
+            capabilities: [gpu]
 
 services:
   ragtestdev:
@@ -19,6 +19,15 @@ services:
       - ../:/workspaces/ragtest
       - jovyanhome:/home/jovyan
       # - condaenvs:/opt/conda/envs
+    networks:
+      - ragtest
+  pgvector:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/data
+    env_file:
+      - ../pgpass.env
     networks:
       - ragtest
   ollama:
@@ -35,7 +44,6 @@ volumes:
   ollama:
   jovyanhome:
     # condaenvs:
-
 
 networks:
   ragtest:
