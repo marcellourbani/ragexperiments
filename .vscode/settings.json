@@ -5,5 +5,25 @@
     "python.analysis.inlayHints.callArgumentNames": "partial",
     "python.analysis.inlayHints.functionReturnTypes": true,
     "python.analysis.typeCheckingMode": "basic",
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "pgvector",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "pgvector",
+            "database": "postgres",
+            "username": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "pgvector",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "pgvector",
+            "database": "ragtest",
+            "username": "postgres"
+        }
+    ]
 }

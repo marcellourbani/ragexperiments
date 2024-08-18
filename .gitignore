@@ -3,3 +3,5 @@ data
 .env
 .condaenv
 pgpass.env
+.vscode/bookmarks.json
+pgvector.session.sql
