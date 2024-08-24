@@ -4,4 +4,5 @@ data
 .condaenv
 pgpass.env
 .vscode/bookmarks.json
-pgvector.session.sql
+*.sql
+*.sql.gz
