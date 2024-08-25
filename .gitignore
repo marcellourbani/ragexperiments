@@ -6,3 +6,7 @@ pgpass.env
 .vscode/bookmarks.json
 *.sql
 *.sql.gz
+.files
+__pycache__
+.chainlit
+chainlit.md
