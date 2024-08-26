@@ -27,8 +27,8 @@ services:
         - port=8000
       dockerfile_inline: |
         ARG port=8000
-        FROM python:3.11-alpine
-        RUN adduser -D chatbot && \
+        FROM python:3-slim
+        RUN useradd -m chatbot && \
             pip install chainlit langchain langchain_community python-dotenv "psycopg[binary,pool]" pgvector
 
         USER chatbot
