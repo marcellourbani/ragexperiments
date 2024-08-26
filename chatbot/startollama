@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -f  .ollama/models/manifests/registry.ollama.ai/library/tinyllama/latest ] && [ -f  .ollama/models/manifests/registry.ollama.ai/library/mxbai-embed-large/latest ]; then 
+    /bin/ollama serve
+else
+    /bin/ollama serve &
+    child=$!
+    sleep 2
+    ollama pull tinyllama
+    ollama pull mxbai-embed-large
+    echo models pulled
+    wait "$child"
+fi

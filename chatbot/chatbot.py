@@ -1,10 +1,11 @@
 # run with chainlit run chatbot.py -w --port 8000
+from typing import List
 import chainlit as cl
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.llms import Ollama
 from langchain.chains import LLMChain
 from langchain_core.prompts.chat import ChatPromptTemplate
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from langchain.vectorstores import pgvector
 from langchain_core.prompts import MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
@@ -12,12 +13,16 @@ from langchain_core.prompts import MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.schema.runnable.config import RunnableConfig
 from langchain_core.messages import AIMessage, HumanMessage,trim_messages
+import os
+
+load_dotenv()
 
 ollama_host="http://ollama:11434"
 embedmodel="mxbai-embed-large"
+llmmodel="tinyllama"
 def connectStr(alchemy=False): 
-    if alchemy: return f'postgresql+psycopg://postgres:{dotenv_values()["POSTGRES_PASSWORD"]}@pgvector:5432/ragtest'
-    return  f'host=pgvector dbname=ragtest user=postgres password={dotenv_values()["POSTGRES_PASSWORD"]}'
+    if alchemy: return f'postgresql+psycopg://postgres:{os.environ["POSTGRES_PASSWORD"]}@pgvector:5432/ragtest'
+    return  f'host=pgvector dbname=ragtest user=postgres password={os.environ["POSTGRES_PASSWORD"]}'
 
 def getVectorStore():
     embeddings = OllamaEmbeddings(base_url=ollama_host,model=embedmodel)
@@ -25,12 +30,11 @@ def getVectorStore():
 
 @cl.on_chat_start
 def quey_llm():
-    llm = Ollama(model='llama3',base_url=ollama_host,temperature=0)
+    llm = Ollama(model=llmmodel,base_url=ollama_host,temperature=0)
 
     general_system_template = r""" 
-    Given a specific context, please give a concise but exhaustive answer to the question.
+    Given a specific context, please give a concise but complete answer to the question.
     If you don't know the answer, just say that you don't know.
-    Always report any link you find
     ----
     {context}
     ----
@@ -65,7 +69,7 @@ async def query_llm(message: cl.Message):
     if chat_history ==None : chat_history = []
     if llm_chain!=None:
         msg = cl.Message(content="")
-        baseurl = dotenv_values()["JIRASDBASEURL"]
+        baseurl = os.environ["JIRASDBASEURL"]
         elements = []
         async for chunk in llm_chain.astream(
             {"input": message.content,"chat_history": chat_history},
@@ -77,7 +81,9 @@ async def query_llm(message: cl.Message):
                 for d in chunk["context"]:
                     meta = d.metadata
                     url=f'{baseurl}/servicedesk/customer/portal/6/article/{meta["source"]}'
-                    elements.append(cl.Text(content=f'[{meta["title"]}]({url})',display="inline"))
+                    elements.append(f'* [{meta["title"]}]({url})')
+
+        elements:List[cl.ElementBased]=[cl.Text("For reference see:",content="\n".join(elements))]
         msg.elements=elements
         await msg.send()
         chat_history.extend([HumanMessage(message.content),AIMessage(msg.content)])

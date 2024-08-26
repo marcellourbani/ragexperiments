@@ -1,0 +1,74 @@
+x-dummy: &base
+  networks:
+    - chatbot
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-size: "200k"
+      max-file: "10"
+
+x-dummy2: &nvidia
+  <<: *base
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+ 
+services:
+  chatbot:
+    <<: *base
+    build:
+      context: .
+      args:
+        - port=8000
+      dockerfile_inline: |
+        ARG port=8000
+        FROM python:3.11-alpine
+        RUN adduser -D chatbot && \
+            pip install chainlit langchain langchain_community python-dotenv "psycopg[binary,pool]" pgvector
+
+        USER chatbot
+        WORKDIR /home/chatbot
+        COPY chatbot.py /home/chatbot
+
+        EXPOSE "${port}"
+        ENTRYPOINT [ "chainlit" ]
+        CMD [ "run","chatbot.py","--port","${port}" ]
+    ports:
+      - 8000:8000
+    env_file:
+      - ./chatbot.env
+  ollama:
+    <<: *nvidia
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM ollama/ollama
+        RUN useradd --create-home ollama && \
+            mkdir /home/ollama/.ollama && \
+            chown ollama:ollama /home/ollama/.ollama
+        USER ollama
+        WORKDIR /home/ollama
+        EXPOSE 11434
+    entrypoint: sh -c ./startollama
+    volumes:
+      - ollama:/home/ollama/.ollama
+      - ./startollama:/home/ollama/startollama
+  pgvector:
+    <<: *nvidia
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    volumes: 
+      - ../data/postgres:/var/lib/postgresql/data # shared with dev container, might lead to corruption if ran concurrently
+    env_file:
+      - ./chatbot.env
+
+networks:
+  chatbot:
+
+volumes:
+  ollama:

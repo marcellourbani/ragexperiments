@@ -3,6 +3,7 @@ data
 .env
 .condaenv
 pgpass.env
+chatbot.env
 .vscode/bookmarks.json
 *.sql
 *.sql.gz
