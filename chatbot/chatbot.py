@@ -17,12 +17,16 @@ import os
 
 load_dotenv()
 
+def readEnv(key:str,default=""):return os.environ[key] if key in os.environ else default
+
 ollama_host="http://ollama:11434"
-embedmodel="mxbai-embed-large"
-llmmodel="tinyllama"
+embedmodel=readEnv("EMBEDMODEL","mxbai-embed-large")
+llmmodel= readEnv("LLMMODEL","tinyllama")
+temperature=float(readEnv("LLMTEMPERATURE","0"))
+
 def connectStr(alchemy=False): 
-    if alchemy: return f'postgresql+psycopg://postgres:{os.environ["POSTGRES_PASSWORD"]}@pgvector:5432/ragtest'
-    return  f'host=pgvector dbname=ragtest user=postgres password={os.environ["POSTGRES_PASSWORD"]}'
+    if alchemy: return f'postgresql+psycopg://postgres:{os.environ["POSTGRES_PASSWORD"]}@postgres:5432/ragtest'
+    return  f'host=postgres dbname=ragtest user=postgres password={os.environ["POSTGRES_PASSWORD"]}'
 
 def getVectorStore():
     embeddings = OllamaEmbeddings(base_url=ollama_host,model=embedmodel)
@@ -30,7 +34,7 @@ def getVectorStore():
 
 @cl.on_chat_start
 def quey_llm():
-    llm = Ollama(model=llmmodel,base_url=ollama_host,temperature=0)
+    llm = Ollama(model=llmmodel,base_url=ollama_host,temperature=temperature)
 
     general_system_template = r""" 
     Given a specific context, please give a concise but complete answer to the question.
