@@ -20,7 +20,7 @@ GET {{$dotenv JIRABASEURL}}/wiki{{singlespace_pages.response.body.results[2]._li
 Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
 ###
 # @name thirdpage
-GET {{$dotenv JIRABASEURL}}/wiki/api/v2/pages/{{singlespace_pages.response.body.results[2].id}}
+GET {{$dotenv JIRABASEURL}}/wiki/api/v2/pages/{{singlespace_pages.response.body.results[2].id}}?body-format=view
 Authorization: Basic {{$dotenv JIRAUSER}}:{{$dotenv JIRAPASS}}
 Accept: application/json
 ###
